@@ -32,9 +32,6 @@ class LoggingController():
         print(f"Received post: \"{item.content}\" in logging...")
         r = self.ls.addMessage(item)
 
-        print("Send message to the queue")
-        # queue.offer(item)
-
         return item.content
 
 
@@ -48,9 +45,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    client = hazelcast.HazelcastClient()
-
-    queue = client.get_queue("queue")
+ 
 
     facade_port = int(args.port)
     localhost = "127.0.0.1"
@@ -62,6 +57,4 @@ if __name__ == "__main__":
     app.include_router(fcd_cntrllr.router)
     uvicorn.run(app, host=localhost, port=facade_port)
 
-    producer_thread.join()
 
-    client.shutdown()
